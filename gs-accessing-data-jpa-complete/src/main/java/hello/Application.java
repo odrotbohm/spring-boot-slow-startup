@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -16,14 +17,16 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
 public class Application {
-	@Autowired
-	JpaVendorAdapter jpaVendorAdapter;
-	@Autowired
-	DataSource dataSource;
+	@Autowired JpaVendorAdapter jpaVendorAdapter;
+	@Autowired DataSource dataSource;
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class);
+		ConfigurableApplicationContext context = SpringApplication.run(Application.class);
+
+		CustomerRepository repository = context.getBean(CustomerRepository.class);
+
+		System.out.println("foo");
 	}
 
 	@Primary
